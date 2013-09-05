@@ -15,7 +15,7 @@
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Java Platform Ground" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
           </children>
         </AnchorPane>
-        <Pane fx:id="platformGround" onMouseClicked="#doAction" VBox.vgrow="ALWAYS" />
+        <Pane id="platformGround" onMouseClicked="#doAction" VBox.vgrow="ALWAYS" />
       </children>
     </VBox>
   </children>

@@ -9,12 +9,8 @@
   <menus>
     <Menu mnemonicParsing="false" text="File">
       <items>
+        <MenuItem mnemonicParsing="false" text="New" />
         <MenuItem mnemonicParsing="false" onAction="#close" text="Close" />
-      </items>
-    </Menu>
-    <Menu mnemonicParsing="false" text="Diagram">
-      <items>
-        <MenuItem mnemonicParsing="false" onAction="#newDiagram" text="New" />
       </items>
     </Menu>
   </menus>
