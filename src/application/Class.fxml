@@ -1,20 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.*?>
 
-<VBox prefHeight="187.0" prefWidth="280.0" xmlns:fx="http://javafx.com/fxml" fx:controller="application.Class">
+<VBox fx:id="theClass" minHeight="200.0" minWidth="300.0" style="-fx-border-color: #000000;&#10;-fx-border-width: 1px;" xmlns:fx="http://javafx.com/fxml" fx:controller="application.Class">
   <!-- TODO Add Nodes -->
   <children>
-    <AnchorPane style="-fx-background-color: #ededed;&#10;-fx-border-color: #000000;&#10;-fx-border-width: 0px 0px 1px 0px;">
+    <AnchorPane onMouseClicked="#mouseClicked" onMouseDragged="#mouseDragged" onMousePressed="#mousePressed" onMouseReleased="#mouseReleased" style="-fx-background-color: #e0e0e0;&#10;-fx-border-color: #000000;&#10;-fx-border-width: 0px 0px 1px 0px;">
       <children>
-        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Class Name" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
-        <TextField alignment="CENTER_RIGHT" promptText="Class Name" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
+        <Text fx:id="className" strokeType="OUTSIDE" strokeWidth="0.0" text="Class Name" textAlignment="RIGHT" textOrigin="CENTER" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
+        <TextField fx:id="classNameEditor" alignment="CENTER_RIGHT" onAction="#classNameEditorAction" visible="false" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
       </children>
     </AnchorPane>
-    <Pane />
+    <VBox alignment="CENTER" minHeight="150.0" style="-fx-background-color: #f0f0f0;" VBox.vgrow="ALWAYS">
+      <children>
+        <FlowPane fx:id="methodContainer" alignment="CENTER" hgap="10.0" minHeight="50.0" onMouseClicked="#addMethod" prefWrapLength="0.0" vgap="10.0" VBox.vgrow="ALWAYS">
+          <padding>
+            <Insets left="5.0" right="5.0" />
+          </padding>
+        </FlowPane>
+        <FlowPane id="attributeConteiner" fx:id="attributeContainer" alignment="CENTER" columnHalignment="CENTER" hgap="10.0" minHeight="50.0" onMouseClicked="#addAttribute" prefWrapLength="0.0" vgap="10.0" VBox.vgrow="ALWAYS">
+          <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+          </padding>
+        </FlowPane>
+      </children>
+      <padding>
+        <Insets bottom="10.0" top="10.0" />
+      </padding>
+      <VBox.margin>
+        <Insets />
+      </VBox.margin>
+    </VBox>
   </children>
 </VBox>

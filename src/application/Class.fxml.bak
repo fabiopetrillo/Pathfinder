@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.*?>
 
-<VBox xmlns:fx="http://javafx.com/fxml">
-	<!-- TODO Add Nodes -->
+<VBox fx:id="theClass" prefHeight="50.0" prefWidth="200.0" style="-fx-border-color: #000000;&#10;-fx-border-width: 1px;" xmlns:fx="http://javafx.com/fxml" fx:controller="application.Class">
+  <!-- TODO Add Nodes -->
+  <children>
+    <AnchorPane onMouseClicked="#mouseClicked" onMouseDragged="#mouseDragged" onMousePressed="#mousePressed" onMouseReleased="#mouseReleased" style="-fx-background-color: #e0e0e0;&#10;-fx-border-color: #000000;&#10;-fx-border-width: 0px 0px 1px 0px;">
+      <children>
+        <Text fx:id="className" strokeType="OUTSIDE" strokeWidth="0.0" text="Class Name" textAlignment="RIGHT" textOrigin="CENTER" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
+        <TextField fx:id="classNameEditor" alignment="CENTER_RIGHT" onAction="#classNameEditorAction" visible="false" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
+      </children>
+    </AnchorPane>
+    <Pane minHeight="50.0" style="-fx-background-color: #f0f0f0;" VBox.vgrow="ALWAYS" />
+  </children>
 </VBox>
-

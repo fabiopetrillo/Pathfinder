@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="476.0" prefWidth="500.0" style="-fx-background-color: #f0f0f0;" xmlns:fx="http://javafx.com/fxml" fx:controller="application.PlatformGround">
+<AnchorPane prefHeight="500.0" prefWidth="500.0" style="-fx-background-color: #f0f0f0;" xmlns:fx="http://javafx.com/fxml" fx:controller="application.PlatformGround">
   <children>
     <VBox alignment="CENTER" style="-fx-background-color: #dadada;&#10;-fx-border-color: #000000;&#10;-fx-border-width: 1px;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <children>
@@ -15,7 +15,7 @@
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Java Platform Ground" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
           </children>
         </AnchorPane>
-        <Pane fx:id="platformGround" onMouseClicked="#doAction" VBox.vgrow="ALWAYS" />
+        <Pane fx:id="platformGround" minHeight="200.0" onMouseClicked="#doAction" VBox.vgrow="ALWAYS" />
       </children>
     </VBox>
   </children>
