@@ -17,5 +17,29 @@
         <MenuItem mnemonicParsing="false" onAction="#newDiagram" text="New" />
       </items>
     </Menu>
+    <Menu mnemonicParsing="false" text="Class">
+      <items>
+        <MenuItem mnemonicParsing="false" onAction="#addClass" text="Add" />
+        <MenuItem mnemonicParsing="false" onAction="#removeClass" text="Remove" />
+      </items>
+    </Menu>
+    <Menu mnemonicParsing="false" text="Method">
+      <items>
+        <MenuItem mnemonicParsing="false" onAction="#addMethod" text="Add" />
+        <MenuItem mnemonicParsing="false" onAction="#removeMethod" text="Remove" />
+      </items>
+    </Menu>
+    <Menu mnemonicParsing="false" text="Attribute">
+      <items>
+        <MenuItem mnemonicParsing="false" onAction="#addAttribute" text="Add" />
+        <MenuItem mnemonicParsing="false" onAction="#removeAttribute" text="Remove" />
+      </items>
+    </Menu>
+    <Menu mnemonicParsing="false" text="Edge">
+      <items>
+        <MenuItem mnemonicParsing="false" onAction="#addEdge" text="Add" />
+        <MenuItem mnemonicParsing="false" onAction="#removeEdge" text="Remove" />
+      </items>
+    </Menu>
   </menus>
 </MenuBar>

@@ -9,8 +9,36 @@
   <menus>
     <Menu mnemonicParsing="false" text="File">
       <items>
-        <MenuItem mnemonicParsing="false" text="New" />
         <MenuItem mnemonicParsing="false" onAction="#close" text="Close" />
+      </items>
+    </Menu>
+    <Menu mnemonicParsing="false" text="Diagram">
+      <items>
+        <MenuItem mnemonicParsing="false" onAction="#newDiagram" text="New" />
+      </items>
+    </Menu>
+    <Menu mnemonicParsing="false" text="Class">
+      <items>
+        <MenuItem mnemonicParsing="false" onAction="#addClass" text="Add" />
+        <MenuItem mnemonicParsing="false" onAction="#removeClass" text="Remove" />
+      </items>
+    </Menu>
+    <Menu mnemonicParsing="false" text="Method">
+      <items>
+        <MenuItem mnemonicParsing="false" onAction="#addMethod" text="Add" />
+        <MenuItem mnemonicParsing="false" onAction="#removeMethod" text="Remove" />
+      </items>
+    </Menu>
+    <Menu mnemonicParsing="false" text="Attribute">
+      <items>
+        <MenuItem mnemonicParsing="false" text="Add" />
+        <MenuItem mnemonicParsing="false" text="Remove" />
+      </items>
+    </Menu>
+    <Menu mnemonicParsing="false" text="Edge">
+      <items>
+        <MenuItem mnemonicParsing="false" onAction="#addEdge" text="Add" />
+        <MenuItem mnemonicParsing="false" onAction="#removeEdge" text="Remove" />
       </items>
     </Menu>
   </menus>
