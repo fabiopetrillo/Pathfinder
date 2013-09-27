@@ -26,8 +26,6 @@ public class Class {
 		this.classNameEditor.setText(this.className.getText());
 	}
 	
-	private Method newEdgeStart;
-	
 	@FXML
 	protected void mousePressed(MouseEvent event) {
 		this.dragX = event.getSceneX();
@@ -107,45 +105,9 @@ public class Class {
 //						this.classInwards.getChildren().remove(0);
 //					}
 				break;
-			case EDGE_ADD_START:
-				if (event.getButton() == MouseButton.PRIMARY) {
-					if (event.getTarget().getClass() == Method.class) {
-						this.newEdgeStart = (Method)(event.getTarget());
-						Config.setMouseAction(MouseAction.EDGE_ADD_END);
-					} else {
-						Config.setMouseAction(MouseAction.SELECTION);
-					}
-				}
-				break;
-			case EDGE_ADD_END:
-				if (event.getButton() == MouseButton.PRIMARY) {
-					if (this.newEdgeStart != null) {
-						if (event.getTarget().getClass() == Method.class) {
-							MethodCalling newMethodCalling = new MethodCalling();
-							Method methodBeingCalled = (Method)(event.getTarget());
-							newMethodCalling.startXProperty().bind(this.newEdgeStart.getConnectionX());
-							newMethodCalling.startYProperty().bind(this.newEdgeStart.getConnectionY());
-							newMethodCalling.endXProperty().bind(methodBeingCalled.getConnectionX());
-							newMethodCalling.endYProperty().bind(methodBeingCalled.getConnectionY());
-							this.classInwards.getChildren().add(newMethodCalling);
-						}
-						if (event.getTarget().getClass() == Attribute.class) {
-							AttributeAccess newAttributeAccess = new AttributeAccess();
-							Attribute attributeBeingAccessed = (Attribute)(event.getTarget());
-							newAttributeAccess.startXProperty().bind(this.newEdgeStart.getConnectionX());
-							newAttributeAccess.startYProperty().bind(this.newEdgeStart.getConnectionY());
-							newAttributeAccess.endXProperty().bind(attributeBeingAccessed.getConnectionX());
-							newAttributeAccess.endYProperty().bind(attributeBeingAccessed.getConnectionY());
-							this.classInwards.getChildren().add(newAttributeAccess);
-						}
-						Config.setMouseAction(MouseAction.SELECTION);
-					}
-				}
-				break;
 			default:
 				break;
 		}
-		event.consume();
 	}
 
 	@FXML

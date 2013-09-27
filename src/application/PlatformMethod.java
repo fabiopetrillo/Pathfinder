@@ -11,7 +11,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
-public class Method extends Circle {
+public class PlatformMethod extends Circle {
 	
 	String name;
 	
@@ -20,8 +20,8 @@ public class Method extends Circle {
 	private double x = 0, y = 0;
 	private double dragX = 0, dragY = 0;
 	
-	public Method() {
-		this.name = "new method";
+	public PlatformMethod() {
+		this.name = "new platform method";
 		this.setRadius(20.0);
 		this.setCenterX(20.0);
 		this.setCenterY(20.0);
@@ -32,16 +32,16 @@ public class Method extends Circle {
 		this.connectionX = new SimpleDoubleProperty(0.0);
 		this.connectionX.bind(this.layoutXProperty().add(20.0));
 		this.connectionY = new SimpleDoubleProperty(0.0);
-		this.connectionY.bind(this.layoutYProperty().add(40.0));
+		this.connectionY.bind(this.layoutYProperty().add(20.0));
 		
 		this.setOnMousePressed(new EventHandler<MouseEvent>() {
 			
 			@Override
 			public void handle(MouseEvent event) {
-				Method.this.dragX = event.getSceneX();
-				Method.this.dragY = event.getSceneY();
-				Method.this.x = Method.this.getLayoutX();
-				Method.this.y = Method.this.getLayoutY();
+				PlatformMethod.this.dragX = event.getSceneX();
+				PlatformMethod.this.dragY = event.getSceneY();
+				PlatformMethod.this.x = PlatformMethod.this.getLayoutX();
+				PlatformMethod.this.y = PlatformMethod.this.getLayoutY();
 				event.consume();
 			}
 			
@@ -51,26 +51,26 @@ public class Method extends Circle {
 			@Override
 			public void handle(MouseEvent event) {
 				if (Config.getMouseAction() == MouseAction.SELECTION) {
-					double newX = Method.this.x + event.getSceneX() - Method.this.dragX;
+					double newX = PlatformMethod.this.x + event.getSceneX() - PlatformMethod.this.dragX;
 					if (newX >= 0) {
-						if (newX+Method.this.getRadius()*2 <= ((Pane) Method.this.getParent()).getWidth()) {
-							Method.this.setLayoutX(newX);
+						if (newX+PlatformMethod.this.getRadius()*2 <= ((Pane) PlatformMethod.this.getParent()).getWidth()) {
+							PlatformMethod.this.setLayoutX(newX);
 						} else {
-							Method.this.setLayoutX(((Pane) Method.this.getParent()).getWidth()-Method.this.getRadius()*2);
+							PlatformMethod.this.setLayoutX(((Pane) PlatformMethod.this.getParent()).getWidth()-PlatformMethod.this.getRadius()*2);
 						}
 					} else {
-						Method.this.setLayoutX(0.0);
+						PlatformMethod.this.setLayoutX(0.0);
 					}
 					
-					double newY = Method.this.y + event.getSceneY() - Method.this.dragY;
+					double newY = PlatformMethod.this.y + event.getSceneY() - PlatformMethod.this.dragY;
 					if (newY >= 0) {
-						if (newY+Method.this.getRadius()*2 <= ((Pane) Method.this.getParent()).getHeight()) {
-							Method.this.setLayoutY(newY);
+						if (newY+PlatformMethod.this.getRadius()*2 <= ((Pane) PlatformMethod.this.getParent()).getHeight()) {
+							PlatformMethod.this.setLayoutY(newY);
 						} else {
-							Method.this.setLayoutY(((Pane) Method.this.getParent()).getHeight()-Method.this.getRadius()*2);
+							PlatformMethod.this.setLayoutY(((Pane) PlatformMethod.this.getParent()).getHeight()-PlatformMethod.this.getRadius()*2);
 						}
 					} else {
-						Method.this.setLayoutY(0.0);
+						PlatformMethod.this.setLayoutY(0.0);
 					}
 				}
 				event.consume();
@@ -102,12 +102,12 @@ public class Method extends Circle {
 	public String getName() {
 		return this.name;
 	}
-	
+
 	public NumberBinding getConnectionX() {
-		return Bindings.add(this.connectionX, this.getParent().getParent().layoutXProperty());
+		return Bindings.add(this.connectionX, this.getParent().layoutXProperty());
 	}
 
 	public NumberBinding getConnectionY() {
-		return Bindings.add(this.connectionY, this.getParent().getParent().layoutYProperty());
+		return Bindings.add(this.connectionY, this.getParent().layoutYProperty());
 	}
 }
