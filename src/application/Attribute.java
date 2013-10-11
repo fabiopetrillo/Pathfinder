@@ -1,12 +1,11 @@
 package application;
 
-import application.Config.MouseAction;
-import javafx.beans.binding.Bindings;
 import javafx.beans.binding.NumberBinding;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Parent;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -14,6 +13,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import application.Config.MouseAction;
 
 public class Attribute extends Rectangle {
 
@@ -140,10 +140,26 @@ public class Attribute extends Rectangle {
 	}
 
 	public NumberBinding getConnectionX() {
-		return Bindings.add(this.connectionX, this.getParent().getParent().layoutXProperty());
+		Parent recursiveParent = this.getParent().getParent();
+		NumberBinding returnBinding = this.connectionX.add(recursiveParent.layoutXProperty());
+		while (recursiveParent.getParent() != null && !recursiveParent.getParent().getId().equals("platformGround")) {
+			recursiveParent = recursiveParent.getParent();
+			if (recursiveParent.getId().equals("theClass")) {
+				returnBinding = returnBinding.add(recursiveParent.layoutXProperty());
+			}
+		}
+		return returnBinding;
 	}
 
 	public NumberBinding getConnectionY() {
-		return Bindings.add(this.connectionY, this.getParent().getParent().layoutYProperty());
+		Parent recursiveParent = this.getParent().getParent();
+		NumberBinding returnBinding = this.connectionY.add(recursiveParent.layoutYProperty());
+		while (recursiveParent.getParent() != null && !recursiveParent.getParent().getId().equals("platformGround")) {
+			recursiveParent = recursiveParent.getParent();
+			if (recursiveParent.getId().equals("theClass")) {
+				returnBinding = returnBinding.add(recursiveParent.layoutYProperty().add(28.0));
+			}
+		}
+		return returnBinding;
 	}
 }
