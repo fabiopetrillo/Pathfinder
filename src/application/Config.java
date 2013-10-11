@@ -15,7 +15,13 @@ public class Config {
 		EDGE_REMOVE
 	}
 	
+	public static enum UserAction {
+		NOTHING,
+		RESIZING
+	}
+	
 	private static MouseAction currentMouseAction = MouseAction.SELECTION;
+	private static UserAction currentUserAction = UserAction.NOTHING;
 	
 	private Config() {
 	}
@@ -28,4 +34,11 @@ public class Config {
 		return Config.currentMouseAction;
 	}
 	
+	public static void setUserAction(UserAction action) {
+		Config.currentUserAction = action;
+	}
+	
+	public static UserAction getUserAction() {
+		return Config.currentUserAction;
+	}
 }

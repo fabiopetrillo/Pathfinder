@@ -25,14 +25,14 @@ public class PlatformMethod extends Circle {
 		this.setRadius(20.0);
 		this.setCenterX(20.0);
 		this.setCenterY(20.0);
-		this.setFill(Color.YELLOW);
+		this.setFill(Color.WHITESMOKE);
 		this.setStroke(Color.BLACK);
 		this.setStrokeWidth(1.0);
 		
 		this.connectionX = new SimpleDoubleProperty(0.0);
-		this.connectionX.bind(this.layoutXProperty().add(20.0));
+		this.connectionX.bind(this.layoutXProperty().add(10.0));
 		this.connectionY = new SimpleDoubleProperty(0.0);
-		this.connectionY.bind(this.layoutYProperty().add(20.0));
+		this.connectionY.bind(this.layoutYProperty().add(50.0));
 		
 		this.setOnMousePressed(new EventHandler<MouseEvent>() {
 			
