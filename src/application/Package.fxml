@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.*?>
+
+<VBox fx:id="thePackage" minHeight="100.0" minWidth="150.0" prefHeight="100.0" prefWidth="150.0" onMouseMoved="#mouseMoved" style="-fx-border-color: #000000;&#10;-fx-border-width: 1px;" xmlns:fx="http://javafx.com/fxml" fx:controller="application.Package">
+  <!-- TODO Add Nodes -->
+  <children>
+    <AnchorPane fx:id="packageNamePane" onMouseClicked="#mouseClicked" onMouseDragged="#mouseDragged" onMousePressed="#mousePressed" onMouseReleased="#mouseReleased" prefHeight="20.0" style="-fx-background-color: #e0e0e0;&#10;-fx-border-color: #000000;&#10;-fx-border-width: 0px 0px 1px 0px;">
+      <children>
+        <Text fx:id="packageName" strokeType="OUTSIDE" strokeWidth="0.0" text="new package" textAlignment="RIGHT" textOrigin="CENTER" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
+        <TextField fx:id="packageNameEditor" alignment="CENTER_RIGHT" text="new package" onAction="#packageNameEditorAction" visible="false" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0" />
+      </children>
+    </AnchorPane>
+    <Pane fx:id="packageInwards" onMouseClicked="#mouseClicked" onMouseDragged="#mouseDragged" onMousePressed="#mousePressed" onMouseReleased="#mouseReleased" style="-fx-background-color: #f3f3f3;" VBox.vgrow="ALWAYS" />
+  </children>
+</VBox>

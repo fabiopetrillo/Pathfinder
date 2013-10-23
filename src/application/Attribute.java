@@ -1,5 +1,7 @@
 package application;
 
+import java.util.ArrayList;
+
 import javafx.beans.binding.NumberBinding;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -7,17 +9,19 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
 import application.Config.MouseAction;
 
 public class Attribute extends Rectangle {
 
-	private Text attributeName = new Text();
+	private ArrayList<AttributeAccess> attributeAccess = new ArrayList<AttributeAccess>();
+
+	private Tooltip attributeNameTooltip = new Tooltip();
 	private TextField attributeNameEditor = new TextField("new attribute");
 
 	private DoubleProperty connectionX, connectionY;
@@ -26,32 +30,12 @@ public class Attribute extends Rectangle {
 	private double dragX = 0, dragY = 0;
 	
 	public Attribute() {
-		this.attributeName.textProperty().bind(this.attributeNameEditor.textProperty());
-		this.attributeName.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
-			@Override
-			public void handle(MouseEvent event) {
-				switch (Config.getMouseAction()) {
-					case SELECTION:
-						if (event.getButton() == MouseButton.PRIMARY) {
-							if (event.getClickCount() == 2) {
-								Attribute.this.attributeName.setVisible(false);
-								Attribute.this.attributeNameEditor.setVisible(true);
-								Attribute.this.attributeNameEditor.requestFocus();
-							}
-						}
-						break;
-					default:
-						break;
-				}
-			}
-			
-		});
+		this.attributeNameTooltip.textProperty().bind(this.attributeNameEditor.textProperty());
+		Tooltip.install(this, this.attributeNameTooltip);
 		this.attributeNameEditor.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
 			public void handle(ActionEvent event) {
-				Attribute.this.attributeName.setVisible(true);
 				Attribute.this.attributeNameEditor.setVisible(false);
 			}
 			
@@ -69,16 +53,23 @@ public class Attribute extends Rectangle {
 		this.connectionX.bind(this.layoutXProperty().add(20.0));
 		this.connectionY = new SimpleDoubleProperty(0.0);
 		this.connectionY.bind(this.layoutYProperty().add(50.0));
-		
-		this.setOnMousePressed(new EventHandler<MouseEvent>() {
+
+		this.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			
 			@Override
 			public void handle(MouseEvent event) {
-				Attribute.this.dragX = event.getSceneX();
-				Attribute.this.dragY = event.getSceneY();
-				Attribute.this.x = Attribute.this.getLayoutX();
-				Attribute.this.y = Attribute.this.getLayoutY();
-				event.consume();
+				switch (Config.getMouseAction()) {
+					case SELECTION:
+						if (event.getButton() == MouseButton.PRIMARY) {
+							if (event.getClickCount() == 2) {
+								Attribute.this.attributeNameEditor.setVisible(true);
+								Attribute.this.attributeNameEditor.requestFocus();
+							}
+						}
+						break;
+					default:
+						break;
+				}
 			}
 			
 		});
@@ -113,15 +104,19 @@ public class Attribute extends Rectangle {
 			}
 			
 		});
-		this.setOnMouseReleased(new EventHandler<MouseEvent>() {
+		this.setOnMousePressed(new EventHandler<MouseEvent>() {
 			
 			@Override
 			public void handle(MouseEvent event) {
-				
+				Attribute.this.dragX = event.getSceneX();
+				Attribute.this.dragY = event.getSceneY();
+				Attribute.this.x = Attribute.this.getLayoutX();
+				Attribute.this.y = Attribute.this.getLayoutY();
+				event.consume();
 			}
 			
 		});
-		this.setOnMouseClicked(new EventHandler<MouseEvent>() {
+		this.setOnMouseReleased(new EventHandler<MouseEvent>() {
 			
 			@Override
 			public void handle(MouseEvent event) {
@@ -132,9 +127,7 @@ public class Attribute extends Rectangle {
 	}
 
 	public void updateName(Pane parent) {
-		parent.getChildren().addAll(this.attributeName, this.attributeNameEditor);
-		this.attributeName.layoutXProperty().bind(this.layoutXProperty());
-		this.attributeName.layoutYProperty().bind(this.layoutYProperty().add(this.getHeight() + this.attributeName.getFont().getSize()));
+		parent.getChildren().add(this.attributeNameEditor);
 		this.attributeNameEditor.layoutXProperty().bind(this.layoutXProperty());
 		this.attributeNameEditor.layoutYProperty().bind(this.layoutYProperty().add(this.getHeight() + this.attributeNameEditor.getHeight()));
 	}
@@ -161,5 +154,19 @@ public class Attribute extends Rectangle {
 			}
 		}
 		return returnBinding;
+	}
+	
+	public void addAttributeAccess(AttributeAccess access) {
+		this.attributeAccess.add(access);
+	}
+	
+	public void removeAttributeAccess(AttributeAccess access) {
+		this.attributeAccess.remove(access);
+	}
+	
+	public void clearAccess() {
+		for (int index = this.attributeAccess.size()-1; index == 0; --index) {
+			this.attributeAccess.get(index).delete();
+		}
 	}
 }

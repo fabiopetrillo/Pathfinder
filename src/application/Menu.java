@@ -1,7 +1,7 @@
 package application;
 
-import application.Config.MouseAction;
 import javafx.fxml.FXML;
+import application.Config.MouseAction;
 
 public class Menu {
 
@@ -12,7 +12,6 @@ public class Menu {
 	
 	@FXML
 	protected void newDiagram() {
-		
 	}
 
 	@FXML
@@ -54,6 +53,4 @@ public class Menu {
 	protected void removeEdge() {
 		Config.setMouseAction(MouseAction.EDGE_REMOVE);
 	}
-	
-	
 }

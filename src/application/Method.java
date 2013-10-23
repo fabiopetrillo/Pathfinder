@@ -1,5 +1,7 @@
 package application;
 
+import java.util.ArrayList;
+
 import javafx.beans.binding.NumberBinding;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -7,17 +9,20 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.text.Text;
 import application.Config.MouseAction;
 
 public class Method extends Circle {
 
-	private Text methodName = new Text();
+	private ArrayList<MethodCalling> methodCalls = new ArrayList<MethodCalling>();
+	private ArrayList<AttributeAccess> attributeAccess = new ArrayList<AttributeAccess>();
+	
+	private Tooltip methodNameTooltip = new Tooltip();
 	private TextField methodNameEditor = new TextField("new method");
 
 	private DoubleProperty connectionX, connectionY;
@@ -26,32 +31,12 @@ public class Method extends Circle {
 	private double dragX = 0, dragY = 0;
 
 	public Method() {
-		this.methodName.textProperty().bind(this.methodNameEditor.textProperty());
-		this.methodName.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
-			@Override
-			public void handle(MouseEvent event) {
-				switch (Config.getMouseAction()) {
-					case SELECTION:
-						if (event.getButton() == MouseButton.PRIMARY) {
-							if (event.getClickCount() == 2) {
-								Method.this.methodName.setVisible(false);
-								Method.this.methodNameEditor.setVisible(true);
-								Method.this.methodNameEditor.requestFocus();
-							}
-						}
-						break;
-					default:
-						break;
-				}
-			}
-			
-		});
+		this.methodNameTooltip.textProperty().bind(this.methodNameEditor.textProperty());
+		Tooltip.install(this, this.methodNameTooltip);
 		this.methodNameEditor.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
 			public void handle(ActionEvent event) {
-				Method.this.methodName.setVisible(true);
 				Method.this.methodNameEditor.setVisible(false);
 			}
 			
@@ -75,7 +60,18 @@ public class Method extends Circle {
 			
 			@Override
 			public void handle(MouseEvent event) {
-				
+				switch (Config.getMouseAction()) {
+					case SELECTION:
+						if (event.getButton() == MouseButton.PRIMARY) {
+							if (event.getClickCount() == 2) {
+								Method.this.methodNameEditor.setVisible(true);
+								Method.this.methodNameEditor.requestFocus();
+							}
+						}
+						break;
+					default:
+						break;
+				}
 			}
 			
 		});
@@ -132,9 +128,7 @@ public class Method extends Circle {
 	}
 
 	public void updateName(Pane parent) {
-		parent.getChildren().addAll(this.methodName, this.methodNameEditor);
-		this.methodName.layoutXProperty().bind(this.layoutXProperty());
-		this.methodName.layoutYProperty().bind(this.layoutYProperty().add(this.getRadius()*2 + this.methodName.getFont().getSize()));
+		parent.getChildren().add(this.methodNameEditor);
 		this.methodNameEditor.layoutXProperty().bind(this.layoutXProperty());
 		this.methodNameEditor.layoutYProperty().bind(this.layoutYProperty().add(this.getRadius()*2 + this.methodNameEditor.getHeight()));
 	}
@@ -161,5 +155,30 @@ public class Method extends Circle {
 			}
 		}
 		return returnBinding;
+	}
+
+	public void addMethodCall(MethodCalling call) {
+		this.methodCalls.add(call);
+	}
+	
+	public void removeMethodCall(MethodCalling call) {
+		this.methodCalls.remove(call);
+	}
+
+	public void addAttributeAccess(AttributeAccess access) {
+		this.attributeAccess.add(access);
+	}
+	
+	public void removeAttributeAccess(AttributeAccess access) {
+		this.attributeAccess.remove(access);
+	}
+	
+	public void clearCallAccess() {
+		for (int index = this.methodCalls.size()-1; index == 0; --index) {
+			this.methodCalls.get(index).delete();
+		}
+		for (int index = this.attributeAccess.size()-1; index == 0; --index) {
+			this.attributeAccess.get(index).delete();
+		}
 	}
 }

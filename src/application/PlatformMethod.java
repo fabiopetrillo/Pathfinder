@@ -1,6 +1,5 @@
 package application;
 
-import application.Config.MouseAction;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.NumberBinding;
 import javafx.beans.property.DoubleProperty;
@@ -10,6 +9,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import application.Config.MouseAction;
 
 public class PlatformMethod extends Circle {
 	

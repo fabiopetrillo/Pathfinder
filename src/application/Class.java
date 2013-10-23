@@ -3,6 +3,7 @@ package application;
 import java.io.IOException;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventTarget;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
@@ -66,8 +67,6 @@ public class Class {
 					}
 				}
 				break;
-			case CLASS_REMOVE:
-				break;
 			case METHOD_ADD:
 				if (event.getButton() == MouseButton.PRIMARY) {
 					Method newMethod = new Method();
@@ -75,11 +74,6 @@ public class Class {
 					newMethod.updateName(this.classInwards);
 				}
 				Config.setMouseAction(MouseAction.SELECTION);
-				break;
-			case METHOD_REMOVE:
-//				if (event.getButton() == MouseButton.SECONDARY && !this.methodContainer.getChildren().isEmpty()) {
-//					this.classInwards.getChildren().remove(0);
-//				}
 				break;
 			case ATTRIBUTE_ADD:
 				if (event.getButton() == MouseButton.PRIMARY) {
@@ -89,10 +83,25 @@ public class Class {
 				}
 				Config.setMouseAction(MouseAction.SELECTION);
 				break;
+			case CLASS_REMOVE:
+				if (event.getButton() == MouseButton.PRIMARY) {
+					((Pane) this.theClass.getParent()).getChildren().remove(this.theClass);
+					Config.setMouseAction(MouseAction.SELECTION);
+				}
+			case METHOD_REMOVE:
+				EventTarget targetMethod = event.getTarget();
+				if (event.getButton() == MouseButton.PRIMARY && targetMethod.getClass() == Method.class) {
+					((Method) targetMethod).clearCallAccess();
+					this.classInwards.getChildren().remove(targetMethod);
+					Config.setMouseAction(MouseAction.SELECTION);
+				}
 			case ATTRIBUTE_REMOVE:
-//					if (event.getButton() == MouseButton.SECONDARY && !this.attributeContainer.getChildren().isEmpty()) {
-//						this.classInwards.getChildren().remove(0);
-//					}
+				EventTarget targetAttribute = event.getTarget();
+				if (event.getButton() == MouseButton.PRIMARY && targetAttribute.getClass() == Attribute.class) {
+					((Attribute) targetAttribute).clearAccess();
+					this.classInwards.getChildren().remove(targetAttribute);
+					Config.setMouseAction(MouseAction.SELECTION);
+				}
 				break;
 			default:
 				break;
