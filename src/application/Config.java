@@ -4,6 +4,8 @@ public class Config {
 	
 	public static enum MouseAction {
 		SELECTION,
+		PACKAGE_ADD,
+		PACKAGE_REMOVE,
 		CLASS_ADD,
 		CLASS_REMOVE,
 		METHOD_ADD,

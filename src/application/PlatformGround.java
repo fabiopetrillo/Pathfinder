@@ -20,6 +20,17 @@ public class PlatformGround {
 	@FXML
 	protected void doAction(MouseEvent event) {
 		switch (Config.getMouseAction()) {
+		case PACKAGE_ADD:
+			if (event.getButton() == MouseButton.PRIMARY) {
+				try {
+					Parent newPackage = FXMLLoader.load(getClass().getResource("Package.fxml"));
+					this.platformGround.getChildren().add(newPackage);
+					Config.setMouseAction(MouseAction.SELECTION);
+				} catch (IOException e) {
+					// TODO 
+				}
+			}
+			break;
 		case CLASS_ADD:
 			if (event.getButton() == MouseButton.PRIMARY) {
 				try {

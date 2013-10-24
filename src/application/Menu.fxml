@@ -17,6 +17,12 @@
         <MenuItem mnemonicParsing="false" onAction="#newDiagram" text="New" />
       </items>
     </Menu>
+    <Menu mnemonicParsing="false" text="Package">
+      <items>
+        <MenuItem mnemonicParsing="false" onAction="#addPackage" text="Add" />
+        <MenuItem mnemonicParsing="false" onAction="#removePackage" text="Remove" />
+      </items>
+    </Menu>
     <Menu mnemonicParsing="false" text="Class">
       <items>
         <MenuItem mnemonicParsing="false" onAction="#addClass" text="Add" />

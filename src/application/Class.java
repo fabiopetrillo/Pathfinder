@@ -88,6 +88,7 @@ public class Class {
 					((Pane) this.theClass.getParent()).getChildren().remove(this.theClass);
 					Config.setMouseAction(MouseAction.SELECTION);
 				}
+				break;
 			case METHOD_REMOVE:
 				EventTarget targetMethod = event.getTarget();
 				if (event.getButton() == MouseButton.PRIMARY && targetMethod.getClass() == Method.class) {
@@ -95,6 +96,7 @@ public class Class {
 					this.classInwards.getChildren().remove(targetMethod);
 					Config.setMouseAction(MouseAction.SELECTION);
 				}
+				break;
 			case ATTRIBUTE_REMOVE:
 				EventTarget targetAttribute = event.getTarget();
 				if (event.getButton() == MouseButton.PRIMARY && targetAttribute.getClass() == Attribute.class) {
@@ -106,6 +108,7 @@ public class Class {
 			default:
 				break;
 		}
+		event.consume();
 	}
 
 	@FXML
@@ -170,6 +173,7 @@ public class Class {
 		} else {
 			this.theClass.setCursor(Cursor.DEFAULT);
 		}
+		event.consume();
 	}
 
 	@FXML

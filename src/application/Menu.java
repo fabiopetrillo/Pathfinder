@@ -13,6 +13,16 @@ public class Menu {
 	@FXML
 	protected void newDiagram() {
 	}
+	
+	@FXML
+	protected void addPackage() {
+		Config.setMouseAction(MouseAction.PACKAGE_ADD);
+	}
+	
+	@FXML
+	protected void removePackage() {
+		Config.setMouseAction(MouseAction.PACKAGE_REMOVE);
+	}
 
 	@FXML
 	protected void addClass() {
