@@ -67,11 +67,10 @@ public class PlatformGround {
 						MethodCalling newMethodCalling = new MethodCalling(this.startEdgeMethod, methodBeingCalled);
 						methodBeingCalled.addMethodCall(newMethodCalling);
 						this.startEdgeMethod.addMethodCall(newMethodCalling);
-						newMethodCalling.startXProperty().bind(this.startEdgeMethod.getConnectionX());
-						newMethodCalling.startYProperty().bind(this.startEdgeMethod.getConnectionY());
-						newMethodCalling.endXProperty().bind(methodBeingCalled.getConnectionX());
-						newMethodCalling.endYProperty().bind(methodBeingCalled.getConnectionY());
+						newMethodCalling.bindStart(this.startEdgeMethod.getConnectionX(), this.startEdgeMethod.getConnectionY());
+						newMethodCalling.bindEnd(methodBeingCalled.getConnectionX(), methodBeingCalled.getConnectionY());
 						this.platformGround.getChildren().add(newMethodCalling);
+						newMethodCalling.createArrow();
 					}
 					if (event.getTarget().getClass() == Attribute.class) {
 						Attribute attributeBeingAccessed = (Attribute)(event.getTarget());

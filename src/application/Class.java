@@ -108,7 +108,6 @@ public class Class {
 			default:
 				break;
 		}
-		event.consume();
 	}
 
 	@FXML
