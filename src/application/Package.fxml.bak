@@ -7,9 +7,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.*?>
 
-<VBox fx:id="thePackage" minHeight="100.0" minWidth="150.0" prefHeight="100.0" prefWidth="150.0" onMouseMoved="#mouseMoved" style="-fx-border-color: #000000;&#10;-fx-border-width: 1px;" xmlns:fx="http://javafx.com/fxml" fx:controller="application.Package">
+<VBox fx:id="thePackage" minHeight="100.0" minWidth="150.0" onMouseMoved="#mouseMoved" prefHeight="100.0" prefWidth="150.0" style="-fx-border-color: #000000;&#10;-fx-border-width: 1px;&#10;-fx-border-style: dotted;" xmlns:fx="http://javafx.com/fxml" fx:controller="application.Package">
   <!-- TODO Add Nodes -->
   <children>
-    <Pane fx:id="packageInwards" onMouseClicked="#mouseClicked" onMouseDragged="#mouseDragged" onMousePressed="#mousePressed" onMouseReleased="#mouseReleased" style="-fx-background-color: #f3f3f3;" VBox.vgrow="ALWAYS" />
+    <Pane fx:id="packageInwards" onMouseClicked="#mouseClicked" onMouseDragged="#mouseDragged" onMousePressed="#mousePressed" onMouseReleased="#mouseReleased" style="-fx-background-color: #f3f3f3;" VBox.vgrow="ALWAYS">
+      <children>
+        <TextField fx:id="packageNameEditor" onAction="#packageNameEditorAction" text="new package" />
+      </children>
+    </Pane>
   </children>
 </VBox>

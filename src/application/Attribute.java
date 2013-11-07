@@ -15,7 +15,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import application.Config.MouseAction;
+import application.Config.Tools;
 
 public class Attribute extends Rectangle {
 
@@ -58,13 +58,12 @@ public class Attribute extends Rectangle {
 			
 			@Override
 			public void handle(MouseEvent event) {
-				switch (Config.getMouseAction()) {
+				switch (Config.getCurrentTool()) {
 					case SELECTION:
-						if (event.getButton() == MouseButton.PRIMARY) {
-							if (event.getClickCount() == 2) {
-								Attribute.this.attributeNameEditor.setVisible(true);
-								Attribute.this.attributeNameEditor.requestFocus();
-							}
+						if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) {
+							Attribute.this.attributeNameEditor.setVisible(true);
+							Attribute.this.attributeNameEditor.requestFocus();
+							event.consume();
 						}
 						break;
 					default:
@@ -77,7 +76,7 @@ public class Attribute extends Rectangle {
 			
 			@Override
 			public void handle(MouseEvent event) {
-				if (Config.getMouseAction() == MouseAction.SELECTION) {
+				if (Config.getCurrentTool() == Tools.SELECTION) {
 					double newX = Attribute.this.x + event.getSceneX() - Attribute.this.dragX;
 					if (newX >= 0) {
 						if (newX+Attribute.this.getWidth() <= ((Pane) Attribute.this.getParent()).getWidth()) {

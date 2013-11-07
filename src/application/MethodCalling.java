@@ -13,6 +13,61 @@ public class MethodCalling extends Line {
 	private Method end;
 	private Polygon arrow = new Polygon();
 	
+	private NumberBinding startX, startY;
+	private NumberBinding endX, endY;
+	
+	private ChangeListener<Number> startXListener = new ChangeListener<Number>() {
+
+		@Override
+		public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+			double edgeAngle = Math.atan2(MethodCalling.this.getEndY()-MethodCalling.this.getStartY(), MethodCalling.this.getEndX()-newValue.doubleValue());
+			MethodCalling.this.setStartX(MethodCalling.this.startX.doubleValue() + 20*Math.cos(edgeAngle));
+			MethodCalling.this.setStartY(MethodCalling.this.startY.doubleValue() + 20*Math.sin(edgeAngle));
+			MethodCalling.this.setEndX(MethodCalling.this.endX.doubleValue() - 20*Math.cos(edgeAngle));
+			MethodCalling.this.setEndY(MethodCalling.this.endY.doubleValue() - 20*Math.sin(edgeAngle));
+		}
+
+	};
+	
+	private ChangeListener<Number> startYListener = new ChangeListener<Number>() {
+
+		@Override
+		public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+			double edgeAngle = Math.atan2(MethodCalling.this.getEndY()-newValue.doubleValue(), MethodCalling.this.getEndX()-MethodCalling.this.getStartX());
+			MethodCalling.this.setStartX(MethodCalling.this.startX.doubleValue() + 20*Math.cos(edgeAngle));
+			MethodCalling.this.setStartY(MethodCalling.this.startY.doubleValue() + 20*Math.sin(edgeAngle));
+			MethodCalling.this.setEndX(MethodCalling.this.endX.doubleValue() - 20*Math.cos(edgeAngle));
+			MethodCalling.this.setEndY(MethodCalling.this.endY.doubleValue() - 20*Math.sin(edgeAngle));
+		}
+
+	};
+
+	private ChangeListener<Number> endXListener = new ChangeListener<Number>() {
+
+		@Override
+		public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+			double edgeAngle = Math.atan2(MethodCalling.this.getEndY()-MethodCalling.this.getStartY(), newValue.doubleValue()-MethodCalling.this.getStartX());
+			MethodCalling.this.setStartX(MethodCalling.this.startX.doubleValue() + 20*Math.cos(edgeAngle));
+			MethodCalling.this.setStartY(MethodCalling.this.startY.doubleValue() + 20*Math.sin(edgeAngle));
+			MethodCalling.this.setEndX(MethodCalling.this.endX.doubleValue() - 20*Math.cos(edgeAngle));
+			MethodCalling.this.setEndY(MethodCalling.this.endY.doubleValue() - 20*Math.sin(edgeAngle));
+		}
+
+	};
+	
+	private ChangeListener<Number> endYListener = new ChangeListener<Number>() {
+
+		@Override
+		public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+			double edgeAngle = Math.atan2(newValue.doubleValue()-MethodCalling.this.getStartY(), MethodCalling.this.getEndX()-MethodCalling.this.getStartX());
+			MethodCalling.this.setStartX(MethodCalling.this.startX.doubleValue() + 20*Math.cos(edgeAngle));
+			MethodCalling.this.setStartY(MethodCalling.this.startY.doubleValue() + 20*Math.sin(edgeAngle));
+			MethodCalling.this.setEndX(MethodCalling.this.endX.doubleValue() - 20*Math.cos(edgeAngle));
+			MethodCalling.this.setEndY(MethodCalling.this.endY.doubleValue() - 20*Math.sin(edgeAngle));
+		}
+
+	};
+	
 	public MethodCalling(Method start, Method end) {
 		this.start = start;
 		this.end = end;
@@ -27,13 +82,43 @@ public class MethodCalling extends Line {
 	}
 
 	public void bindStart(NumberBinding startX, NumberBinding startY) {
-		this.startXProperty().bind(startX);
-		this.startYProperty().bind(startY);
+		if (this.startX != null) {
+			this.startX.removeListener(this.startXListener);
+		}
+		if (this.startY != null) {
+			this.startY.removeListener(this.startYListener);
+		}
+		this.startX = startX;
+		this.startY = startY;
+		this.startX.addListener(this.startXListener);
+		this.startY.addListener(this.startYListener);
+		if (this.startX != null && this.endX != null) {
+			double edgeAngle = Math.atan2(this.startX.doubleValue()-this.startY.doubleValue(), this.endX.doubleValue()-this.endY.doubleValue());
+			this.setStartX(this.startX.doubleValue() + 20*Math.cos(edgeAngle));
+			this.setStartY(this.startY.doubleValue() + 20*Math.sin(edgeAngle));
+			this.setEndX(this.endX.doubleValue() - 20*Math.cos(edgeAngle));
+			this.setEndY(this.endY.doubleValue() - 20*Math.sin(edgeAngle));
+		}
 	}
 
 	public void bindEnd(NumberBinding endX, NumberBinding endY) {
-		this.endXProperty().bind(endX);
-		this.endYProperty().bind(endY);
+		if (this.endX != null) {
+			this.endX.removeListener(this.endXListener);
+		}
+		if (this.endY != null) {
+			this.endY.removeListener(this.endYListener);
+		}
+		this.endX = endX;
+		this.endY = endY;
+		this.endX.addListener(this.endXListener);
+		this.endY.addListener(this.endYListener);
+		if (this.startX != null && this.endX != null) {
+			double edgeAngle = Math.atan2(this.startX.doubleValue()-this.startY.doubleValue(), this.endX.doubleValue()-this.endY.doubleValue());
+			this.setStartX(this.startX.doubleValue() + 20*Math.cos(edgeAngle));
+			this.setStartY(this.startY.doubleValue() + 20*Math.sin(edgeAngle));
+			this.setEndX(this.endX.doubleValue() - 20*Math.cos(edgeAngle));
+			this.setEndY(this.endY.doubleValue() - 20*Math.sin(edgeAngle));
+		}
 	}
 	
 	public void createArrow() {

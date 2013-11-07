@@ -9,7 +9,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import application.Config.MouseAction;
+import application.Config.Tools;
 
 public class PlatformMethod extends Circle {
 	
@@ -50,7 +50,7 @@ public class PlatformMethod extends Circle {
 			
 			@Override
 			public void handle(MouseEvent event) {
-				if (Config.getMouseAction() == MouseAction.SELECTION) {
+				if (Config.getCurrentTool() == Tools.SELECTION) {
 					double newX = PlatformMethod.this.x + event.getSceneX() - PlatformMethod.this.dragX;
 					if (newX >= 0) {
 						if (newX+PlatformMethod.this.getRadius()*2 <= ((Pane) PlatformMethod.this.getParent()).getWidth()) {

@@ -2,15 +2,18 @@ package application;
 
 import java.io.IOException;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import application.Config.MouseAction;
+import application.Config.Tools;
 import application.Config.UserAction;
 
 public class Package {
@@ -19,20 +22,36 @@ public class Package {
 
 	@FXML VBox thePackage = new VBox();
 	@FXML Pane packageInwards = new Pane();
+	@FXML TextField packageNameEditor = new TextField();
+	private Tooltip packageNameTooltip = new Tooltip();
 
 	double x = 0;
 	double y = 0;
 	double dragX = 0;
 	double dragY = 0;
 
-	public Package() {
+	@FXML
+	public void initialize() {
+		this.packageNameTooltip.textProperty().bind(this.packageNameEditor.textProperty());
+		Tooltip.install(this.packageInwards, this.packageNameTooltip);
+		Tooltip.install(this.thePackage, this.packageNameTooltip);
 	}
 	
 	@FXML
 	protected void mouseClicked(MouseEvent event) {
 		
-		switch (Config.getMouseAction()) {
-			case PACKAGE_ADD:
+		switch (Config.getCurrentTool()) {
+			case SELECTION:
+				if (event.getButton() == MouseButton.PRIMARY) {
+					if (event.getClickCount() == 2) {
+						this.packageNameEditor.toFront();
+						this.packageNameEditor.setVisible(true);
+						this.packageNameEditor.requestFocus();
+					}
+				}
+				Config.setCurrentTool(Tools.SELECTION);
+				break;
+			case PACKAGE:
 				if (event.getButton() == MouseButton.PRIMARY) {
 					try {
 						Parent newPackage = FXMLLoader.load(getClass().getResource("Package.fxml"));
@@ -43,13 +62,13 @@ public class Package {
 							this.thePackage.setPrefHeight(thePackage.getMinHeight()*2 - this.packageInwards.getHeight());
 						}
 						this.packageInwards.getChildren().add(newPackage);
-						Config.setMouseAction(MouseAction.SELECTION);
+						Config.setCurrentTool(Tools.SELECTION);
 					} catch (IOException e) {
-						// TODO 
+						// TODO : Exception handler
 					}
 				}
 				break;
-			case CLASS_ADD:
+			case CLASS:
 				if (event.getButton() == MouseButton.PRIMARY) {
 					try {
 						Parent newClass = FXMLLoader.load(getClass().getResource("Class.fxml"));
@@ -60,16 +79,16 @@ public class Package {
 							this.thePackage.setPrefHeight(thePackage.getMinHeight()*2 - this.packageInwards.getHeight());
 						}
 						this.packageInwards.getChildren().add(newClass);
-						Config.setMouseAction(MouseAction.SELECTION);
+						Config.setCurrentTool(Tools.SELECTION);
 					} catch (IOException e) {
-						// TODO 
+						// TODO : Exception handler
 					}
 				}
 				break;
-			case PACKAGE_REMOVE:
+			case ERASE:
 				if (event.getButton() == MouseButton.PRIMARY) {
 					((Pane) this.thePackage.getParent()).getChildren().remove(this.thePackage);
-					Config.setMouseAction(MouseAction.SELECTION);
+					Config.setCurrentTool(Tools.SELECTION);
 				}
 				break;
 			default:
@@ -134,7 +153,6 @@ public class Package {
 
 	@FXML
 	protected void mouseMoved(MouseEvent event) {
-		//System.out.println(event.getX()+" > "+this.thePackage.getTranslateX()+" + "+this.thePackage.getPrefWidth());
 		if ((event.getX() > this.thePackage.getTranslateX() + this.thePackage.getPrefWidth() - resizeArea) && (event.getY() > this.thePackage.getTranslateY() + this.thePackage.getPrefHeight() - resizeArea)) {
 			this.thePackage.setCursor(Cursor.SE_RESIZE);
 		} else {
@@ -160,8 +178,16 @@ public class Package {
 
 	@FXML
 	protected void mouseReleased(MouseEvent event) {
-		// TODO
 		Config.setUserAction(UserAction.NOTHING);
 		event.consume();
+	}
+
+	@FXML
+	public void packageNameEditorAction(ActionEvent event) {
+		this.packageNameEditor.setVisible(false);
+		// TODO: Search why these things doesn't work on contructor. ¬¬
+		if (!this.packageNameTooltip.textProperty().isBound()) {
+			this.packageNameTooltip.textProperty().bind(this.packageNameEditor.textProperty());
+		}
 	}
 }

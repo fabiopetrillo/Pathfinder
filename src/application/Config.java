@@ -2,19 +2,15 @@ package application;
 
 public class Config {
 	
-	public static enum MouseAction {
+	public static enum Tools {
 		SELECTION,
-		PACKAGE_ADD,
-		PACKAGE_REMOVE,
-		CLASS_ADD,
-		CLASS_REMOVE,
-		METHOD_ADD,
-		METHOD_REMOVE,
-		ATTRIBUTE_ADD,
-		ATTRIBUTE_REMOVE,
-		EDGE_ADD_START,
-		EDGE_ADD_END,
-		EDGE_REMOVE
+		PACKAGE,
+		CLASS,
+		METHOD,
+		ATTRIBUTE,
+		EDGE_START,
+		EDGE_END,
+		ERASE
 	}
 	
 	public static enum UserAction {
@@ -22,18 +18,18 @@ public class Config {
 		RESIZING
 	}
 	
-	private static MouseAction currentMouseAction = MouseAction.SELECTION;
+	private static Tools selectedTool = Tools.SELECTION;
 	private static UserAction currentUserAction = UserAction.NOTHING;
 	
 	private Config() {
 	}
 	
-	public static void setMouseAction(MouseAction action) {
-		Config.currentMouseAction = action;
+	public static void setCurrentTool(Tools action) {
+		Config.selectedTool = action;
 	}
 	
-	public static MouseAction getMouseAction() {
-		return Config.currentMouseAction;
+	public static Tools getCurrentTool() {
+		return Config.selectedTool;
 	}
 	
 	public static void setUserAction(UserAction action) {

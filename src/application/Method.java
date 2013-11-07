@@ -15,7 +15,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import application.Config.MouseAction;
+import application.Config.Tools;
 
 public class Method extends Circle {
 
@@ -60,7 +60,7 @@ public class Method extends Circle {
 			
 			@Override
 			public void handle(MouseEvent event) {
-				switch (Config.getMouseAction()) {
+				switch (Config.getCurrentTool()) {
 					case SELECTION:
 						if (event.getButton() == MouseButton.PRIMARY) {
 							if (event.getClickCount() == 2) {
@@ -79,7 +79,7 @@ public class Method extends Circle {
 			
 			@Override
 			public void handle(MouseEvent event) {
-				if (Config.getMouseAction() == MouseAction.SELECTION) {
+				if (Config.getCurrentTool() == Tools.SELECTION) {
 					double newX = Method.this.x + event.getSceneX() - Method.this.dragX;
 					if (newX >= 0) {
 						if (newX+Method.this.getRadius()*2 <= ((Pane) Method.this.getParent()).getWidth()) {

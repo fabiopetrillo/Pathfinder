@@ -16,7 +16,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import application.Config.MouseAction;
+import application.Config.Tools;
 import application.Config.UserAction;
 
 public class Class {
@@ -34,13 +34,15 @@ public class Class {
 	double dragX = 0;
 	double dragY = 0;
 
-	public Class() {
+	@FXML
+	public void initialize() {
+		this.className.textProperty().bind(this.classNameEditor.textProperty());
 	}
 	
 	@FXML
 	protected void mouseClicked(MouseEvent event) {
 		
-		switch (Config.getMouseAction()) {
+		switch (Config.getCurrentTool()) {
 			case SELECTION:
 				if (event.getButton() == MouseButton.PRIMARY) {
 					if (event.getClickCount() == 2 && ((Node)event.getSource()).getId().equals("classNamePane")) {
@@ -48,9 +50,9 @@ public class Class {
 						this.classNameEditor.requestFocus();
 					}
 				}
-				Config.setMouseAction(MouseAction.SELECTION);
+				Config.setCurrentTool(Tools.SELECTION);
 				break;
-			case CLASS_ADD:
+			case CLASS:
 				if (event.getButton() == MouseButton.PRIMARY) {
 					try {
 						Parent newClass = FXMLLoader.load(getClass().getResource("Class.fxml"));
@@ -61,49 +63,49 @@ public class Class {
 							this.theClass.setPrefHeight(theClass.getMinHeight()*2 - this.classInwards.getHeight());
 						}
 						this.classInwards.getChildren().add(newClass);
-						Config.setMouseAction(MouseAction.SELECTION);
+						Config.setCurrentTool(Tools.SELECTION);
 					} catch (IOException e) {
 						// TODO 
 					}
 				}
 				break;
-			case METHOD_ADD:
+			case METHOD:
 				if (event.getButton() == MouseButton.PRIMARY) {
 					Method newMethod = new Method();
 					this.classInwards.getChildren().add(newMethod);
 					newMethod.updateName(this.classInwards);
 				}
-				Config.setMouseAction(MouseAction.SELECTION);
+				Config.setCurrentTool(Tools.SELECTION);
 				break;
-			case ATTRIBUTE_ADD:
+			case ATTRIBUTE:
 				if (event.getButton() == MouseButton.PRIMARY) {
 					Attribute newAttribute = new Attribute();
 					this.classInwards.getChildren().add(newAttribute);
 					newAttribute.updateName(this.classInwards);
 				}
-				Config.setMouseAction(MouseAction.SELECTION);
+				Config.setCurrentTool(Tools.SELECTION);
 				break;
-			case CLASS_REMOVE:
+			case ERASE:
 				if (event.getButton() == MouseButton.PRIMARY) {
-					((Pane) this.theClass.getParent()).getChildren().remove(this.theClass);
-					Config.setMouseAction(MouseAction.SELECTION);
+					EventTarget target = event.getTarget();
+					if (target instanceof Method) {
+						((Method) target).clearCallAccess();
+					} else if (target instanceof Attribute) {
+						((Attribute) target).clearAccess();
+					} else {
+						for (Object children : this.classInwards.getChildren()) {
+							if (children instanceof Method) {
+								((Method) children).clearCallAccess();
+							}
+							if (children instanceof Attribute) {
+								((Attribute) children).clearAccess();
+							}
+						}
+						((Pane) this.theClass.getParent()).getChildren().remove(this.theClass);
+					}
+					this.classInwards.getChildren().remove(target);
 				}
-				break;
-			case METHOD_REMOVE:
-				EventTarget targetMethod = event.getTarget();
-				if (event.getButton() == MouseButton.PRIMARY && targetMethod.getClass() == Method.class) {
-					((Method) targetMethod).clearCallAccess();
-					this.classInwards.getChildren().remove(targetMethod);
-					Config.setMouseAction(MouseAction.SELECTION);
-				}
-				break;
-			case ATTRIBUTE_REMOVE:
-				EventTarget targetAttribute = event.getTarget();
-				if (event.getButton() == MouseButton.PRIMARY && targetAttribute.getClass() == Attribute.class) {
-					((Attribute) targetAttribute).clearAccess();
-					this.classInwards.getChildren().remove(targetAttribute);
-					Config.setMouseAction(MouseAction.SELECTION);
-				}
+				Config.setCurrentTool(Tools.SELECTION);
 				break;
 			default:
 				break;
@@ -166,7 +168,6 @@ public class Class {
 
 	@FXML
 	protected void mouseMoved(MouseEvent event) {
-		//System.out.println(event.getX()+" > "+this.theClass.getTranslateX()+" + "+this.theClass.getPrefWidth());
 		if ((event.getX() > this.theClass.getTranslateX() + this.theClass.getPrefWidth() - resizeArea) && (event.getY() > this.theClass.getTranslateY() + this.theClass.getPrefHeight() - resizeArea)) {
 			this.theClass.setCursor(Cursor.SE_RESIZE);
 		} else {
@@ -200,9 +201,5 @@ public class Class {
 	@FXML
 	public void classNameEditorAction(ActionEvent event) {
 		this.classNameEditor.setVisible(false);
-		// TODO: Search why these things doesn't work on contructor. ¬¬
-		if (!this.className.textProperty().isBound()) {
-			this.className.textProperty().bind(this.classNameEditor.textProperty());
-		}
 	}
 }

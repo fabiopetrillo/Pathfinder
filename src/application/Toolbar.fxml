@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+
+<ToolBar minWidth="85.0" orientation="VERTICAL" xmlns:fx="http://javafx.com/fxml" fx:controller="application.Toolbar">
+  <items>
+    <Button id="Class" fx:id="Selection" mnemonicParsing="false" onAction="#setSelectionTool" prefWidth="75.0" style="-fx-base: #4477cc;" text="Selection" />
+    <Separator />
+    <Button id="Class" fx:id="Package" mnemonicParsing="false" onAction="#setPackageTool" prefWidth="75.0" text="Package" />
+    <Button fx:id="Class" mnemonicParsing="false" onAction="#setClassTool" prefWidth="75.0" text="Class" />
+    <Button id="Class" fx:id="Method" mnemonicParsing="false" onAction="#setMethodTool" prefWidth="75.0" text="Method" />
+    <Button id="Class" fx:id="Attribute" mnemonicParsing="false" onAction="#setAttributeTool" prefWidth="75.0" text="Attribute" />
+    <Separator />
+    <Button id="Class" fx:id="Edge" mnemonicParsing="false" onAction="#setEdgeTool" prefWidth="75.0" text="Edge" />
+    <Separator />
+    <Button id="Class" fx:id="Erase" mnemonicParsing="false" onAction="#setEraseTool" prefWidth="75.0" style="-fx-base: #dd3333;" text="Erase" />
+  </items>
+</ToolBar>
