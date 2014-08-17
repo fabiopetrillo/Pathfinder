@@ -19,7 +19,10 @@ import application.Config.Tools;
 
 public class Method extends Circle {
 
+	// When this method calls
 	private ArrayList<MethodCalling> methodCalls = new ArrayList<MethodCalling>();
+	// WHen this method is called
+	private ArrayList<MethodCalling> methodCallings = new ArrayList<MethodCalling>();
 	private ArrayList<AttributeAccess> attributeAccess = new ArrayList<AttributeAccess>();
 	
 	private Tooltip methodNameTooltip = new Tooltip();
@@ -31,6 +34,7 @@ public class Method extends Circle {
 	private double dragX = 0, dragY = 0;
 
 	public Method() {
+		this.setId("theMethod");
 		this.methodNameTooltip.textProperty().bind(this.methodNameEditor.textProperty());
 		Tooltip.install(this, this.methodNameTooltip);
 		this.methodNameEditor.setOnAction(new EventHandler<ActionEvent>() {
@@ -138,7 +142,7 @@ public class Method extends Circle {
 		NumberBinding returnBinding = this.connectionX.add(recursiveParent.layoutXProperty());
 		while (recursiveParent.getParent() != null && !recursiveParent.getParent().getId().equals("platformGround")) {
 			recursiveParent = recursiveParent.getParent();
-			if (recursiveParent.getId().equals("theClass")) {
+			if (recursiveParent.getId().equals("theClass") || recursiveParent.getId().equals("thePackage")) {
 				returnBinding = returnBinding.add(recursiveParent.layoutXProperty());
 			}
 		}
@@ -152,9 +156,24 @@ public class Method extends Circle {
 			recursiveParent = recursiveParent.getParent();
 			if (recursiveParent.getId().equals("theClass")) {
 				returnBinding = returnBinding.add(recursiveParent.layoutYProperty().add(28.0));
+			} else if (recursiveParent.getId().equals("thePackage")) {
+				returnBinding = returnBinding.add(recursiveParent.layoutYProperty());
 			}
 		}
 		return returnBinding;
+	}
+
+	public ArrayList<MethodCalling> getMethodCalls() {
+		return this.methodCalls;
+	}
+
+
+	public ArrayList<MethodCalling> getMethodCallings() {
+		return this.methodCallings;
+	}
+
+	public ArrayList<AttributeAccess> getAttributeAccesses() {
+		return this.attributeAccess;
 	}
 
 	public void addMethodCall(MethodCalling call) {
@@ -163,6 +182,14 @@ public class Method extends Circle {
 	
 	public void removeMethodCall(MethodCalling call) {
 		this.methodCalls.remove(call);
+	}
+
+	public void addMethodCalling(MethodCalling call) {
+		this.methodCallings.add(call);
+	}
+	
+	public void removeMethodCalling(MethodCalling call) {
+		this.methodCallings.remove(call);
 	}
 
 	public void addAttributeAccess(AttributeAccess access) {
@@ -177,8 +204,19 @@ public class Method extends Circle {
 		for (int index = this.methodCalls.size()-1; index == 0; --index) {
 			this.methodCalls.get(index).delete();
 		}
+		for (int index = this.methodCallings.size()-1; index == 0; --index) {
+			this.methodCallings.get(index).delete();
+		}
 		for (int index = this.attributeAccess.size()-1; index == 0; --index) {
 			this.attributeAccess.get(index).delete();
 		}
+	}
+	
+	public String getName() {
+		return this.methodNameEditor.getText();
+	}
+	
+	public void setName(String name) {
+		this.methodNameEditor.setText(name);
 	}
 }

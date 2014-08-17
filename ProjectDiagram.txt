@@ -1,0 +1,47 @@
+
+0 class Man
+1 class Human
+2 class Person
+3 method new method
+0 
+1 
+2 
+2 method new method
+
+3 
+4 
+2 attribute new attribute
+2 4 
+1 method new method
+3 
+
+
+1 method new method
+1 
+
+
+0 class Woman
+1 class Human
+2 class Person
+3 method new method
+5 
+6 
+7 
+2 method new method
+
+8 
+9 
+2 attribute new attribute
+9 7 
+1 method new method
+8 
+
+
+1 method new method
+6 
+
+
+0 class Person
+1 method new method
+
+0 5 

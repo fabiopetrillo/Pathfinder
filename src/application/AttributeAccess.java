@@ -8,6 +8,8 @@ import javafx.scene.shape.Line;
 
 public class AttributeAccess extends Line {
 
+	private int number = -1;
+	
 	private Method method;
 	private Attribute attribute;
 
@@ -97,6 +99,11 @@ public class AttributeAccess extends Line {
 		}
 
 	};
+
+	public void updateBindings() {
+		this.bindStart(this.method.getConnectionX(), this.method.getConnectionY());
+		this.bindEnd(this.attribute.getConnectionX(), this.attribute.getConnectionY());
+	}
 	
 	public AttributeAccess(Method method, Attribute attribute) {
 		this.method = method;
@@ -108,6 +115,30 @@ public class AttributeAccess extends Line {
 		this.method.removeAttributeAccess(this);
 		this.attribute.removeAttributeAccess(this);
 		((Pane) this.getParent()).getChildren().remove(this);
+	}
+
+	public int getNumber() {
+		return this.number;
+	}
+	
+	public void setNumber(int number) {
+		this.number = number;
+	}
+
+	public void setStart(Method start) {
+		this.method = start;
+	}
+
+	public Method getStart() {
+		return this.method;
+	}
+
+	public void setEnd(Attribute end) {
+		this.attribute = end;
+	}
+
+	public Attribute getEnd() {
+		return this.attribute;
 	}
 
 	public void bindStart(NumberBinding startX, NumberBinding startY) {

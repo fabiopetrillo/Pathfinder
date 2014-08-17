@@ -8,7 +8,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -19,7 +18,7 @@ import javafx.scene.text.Text;
 import application.Config.Tools;
 import application.Config.UserAction;
 
-public class Class {
+public class Class extends VBox {
 
 	private static final double resizeArea = 15.0;
 
@@ -34,6 +33,47 @@ public class Class {
 	double dragX = 0;
 	double dragY = 0;
 
+	public Class() {
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Class.fxml"));
+		fxmlLoader.setRoot(this);
+		fxmlLoader.setController(this);
+		try {
+			fxmlLoader.load();
+		} catch (IOException exception) {
+			throw new RuntimeException(exception);
+		}
+	}
+	
+	public void setName(String name) {
+		this.classNameEditor.setText(name);
+	}
+	
+	public Class addClass() {
+		Class newClass = new Class();
+		if (this.classInwards.getWidth() < this.theClass.getMinWidth()) {
+			this.theClass.setPrefWidth(theClass.getMinWidth()*2 - this.classInwards.getWidth());
+		}
+		if (this.classInwards.getHeight() < this.theClass.getMinHeight()) {
+			this.theClass.setPrefHeight(theClass.getMinHeight()*2 - this.classInwards.getHeight());
+		}
+		this.classInwards.getChildren().add(newClass);
+		return newClass;
+	}
+	
+	public Method addMethod() {
+		Method newMethod = new Method();
+		this.classInwards.getChildren().add(newMethod);
+		newMethod.updateName(this.classInwards);
+		return newMethod;
+	}
+	
+	public Attribute addAttribute() {
+		Attribute newAttribute = new Attribute();
+		this.classInwards.getChildren().add(newAttribute);
+		newAttribute.updateName(this.classInwards);
+		return newAttribute;
+	}
+	
 	@FXML
 	public void initialize() {
 		this.className.textProperty().bind(this.classNameEditor.textProperty());
@@ -54,36 +94,21 @@ public class Class {
 				break;
 			case CLASS:
 				if (event.getButton() == MouseButton.PRIMARY) {
-					try {
-						Parent newClass = FXMLLoader.load(getClass().getResource("Class.fxml"));
-						if (this.classInwards.getWidth() < this.theClass.getMinWidth()) {
-							this.theClass.setPrefWidth(theClass.getMinWidth()*2 - this.classInwards.getWidth());
-						}
-						if (this.classInwards.getHeight() < this.theClass.getMinHeight()) {
-							this.theClass.setPrefHeight(theClass.getMinHeight()*2 - this.classInwards.getHeight());
-						}
-						this.classInwards.getChildren().add(newClass);
-						Config.setCurrentTool(Tools.SELECTION);
-					} catch (IOException e) {
-						// TODO 
-					}
+					this.addClass();
+					Config.setCurrentTool(Tools.SELECTION);
 				}
 				break;
 			case METHOD:
 				if (event.getButton() == MouseButton.PRIMARY) {
-					Method newMethod = new Method();
-					this.classInwards.getChildren().add(newMethod);
-					newMethod.updateName(this.classInwards);
+					this.addMethod();
+					Config.setCurrentTool(Tools.SELECTION);
 				}
-				Config.setCurrentTool(Tools.SELECTION);
 				break;
 			case ATTRIBUTE:
 				if (event.getButton() == MouseButton.PRIMARY) {
-					Attribute newAttribute = new Attribute();
-					this.classInwards.getChildren().add(newAttribute);
-					newAttribute.updateName(this.classInwards);
+					this.addAttribute();
+					Config.setCurrentTool(Tools.SELECTION);
 				}
-				Config.setCurrentTool(Tools.SELECTION);
 				break;
 			case ERASE:
 				if (event.getButton() == MouseButton.PRIMARY) {

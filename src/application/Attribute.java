@@ -30,6 +30,7 @@ public class Attribute extends Rectangle {
 	private double dragX = 0, dragY = 0;
 	
 	public Attribute() {
+		this.setId("theAttribute");
 		this.attributeNameTooltip.textProperty().bind(this.attributeNameEditor.textProperty());
 		Tooltip.install(this, this.attributeNameTooltip);
 		this.attributeNameEditor.setOnAction(new EventHandler<ActionEvent>() {
@@ -136,7 +137,7 @@ public class Attribute extends Rectangle {
 		NumberBinding returnBinding = this.connectionX.add(recursiveParent.layoutXProperty());
 		while (recursiveParent.getParent() != null && !recursiveParent.getParent().getId().equals("platformGround")) {
 			recursiveParent = recursiveParent.getParent();
-			if (recursiveParent.getId().equals("theClass")) {
+			if (recursiveParent.getId().equals("theClass") || recursiveParent.getId().equals("thePackage")) {
 				returnBinding = returnBinding.add(recursiveParent.layoutXProperty());
 			}
 		}
@@ -150,9 +151,15 @@ public class Attribute extends Rectangle {
 			recursiveParent = recursiveParent.getParent();
 			if (recursiveParent.getId().equals("theClass")) {
 				returnBinding = returnBinding.add(recursiveParent.layoutYProperty().add(28.0));
+			} else if (recursiveParent.getId().equals("thePackage")) {
+				returnBinding = returnBinding.add(recursiveParent.layoutYProperty());
 			}
 		}
 		return returnBinding;
+	}
+	
+	public ArrayList<AttributeAccess> getAttributeAccesses() {
+		return this.attributeAccess;
 	}
 	
 	public void addAttributeAccess(AttributeAccess access) {
@@ -167,5 +174,13 @@ public class Attribute extends Rectangle {
 		for (int index = this.attributeAccess.size()-1; index == 0; --index) {
 			this.attributeAccess.get(index).delete();
 		}
+	}
+
+	public String getName() {
+		return this.attributeNameEditor.getText();
+	}
+	
+	public void setName(String name) {
+		this.attributeNameEditor.setText(name);
 	}
 }

@@ -6,7 +6,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
-import javafx.scene.Parent;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseButton;
@@ -16,7 +15,7 @@ import javafx.scene.layout.VBox;
 import application.Config.Tools;
 import application.Config.UserAction;
 
-public class Package {
+public class Package extends VBox {
 
 	private static final double resizeArea = 15.0;
 
@@ -29,7 +28,46 @@ public class Package {
 	double y = 0;
 	double dragX = 0;
 	double dragY = 0;
+	
+	public Package() {
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("Package.fxml"));
+		fxmlLoader.setRoot(this);
+		fxmlLoader.setController(this);
+		try {
+			fxmlLoader.load();
+		} catch (IOException exception) {
+			throw new RuntimeException(exception);
+		}
+	}
+	
+	public void setName(String name) {
+		this.packageNameEditor.setText(name);
+	}
 
+	public Package addPackage() {
+		Package newPackage = new Package();
+		if (this.packageInwards.getWidth() < this.thePackage.getMinWidth()) {
+			this.thePackage.setPrefWidth(thePackage.getMinWidth()*2 - this.packageInwards.getWidth());
+		}
+		if (this.packageInwards.getHeight() < this.thePackage.getMinHeight()) {
+			this.thePackage.setPrefHeight(thePackage.getMinHeight()*2 - this.packageInwards.getHeight());
+		}
+		this.packageInwards.getChildren().add(newPackage);
+		return newPackage;
+	}
+	
+	public Class addClass() {
+		Class newClass = new Class();
+		if (this.packageInwards.getWidth() < this.thePackage.getMinWidth()) {
+			this.thePackage.setPrefWidth(this.thePackage.getMinWidth()*2 - this.packageInwards.getWidth());
+		}
+		if (this.packageInwards.getHeight() < this.thePackage.getMinHeight()) {
+			this.thePackage.setPrefHeight(this.thePackage.getMinHeight()*2 - this.packageInwards.getHeight());
+		}
+		this.packageInwards.getChildren().add(newClass);
+		return newClass;
+	}
+	
 	@FXML
 	public void initialize() {
 		this.packageNameTooltip.textProperty().bind(this.packageNameEditor.textProperty());
@@ -53,36 +91,14 @@ public class Package {
 				break;
 			case PACKAGE:
 				if (event.getButton() == MouseButton.PRIMARY) {
-					try {
-						Parent newPackage = FXMLLoader.load(getClass().getResource("Package.fxml"));
-						if (this.packageInwards.getWidth() < this.thePackage.getMinWidth()) {
-							this.thePackage.setPrefWidth(thePackage.getMinWidth()*2 - this.packageInwards.getWidth());
-						}
-						if (this.packageInwards.getHeight() < this.thePackage.getMinHeight()) {
-							this.thePackage.setPrefHeight(thePackage.getMinHeight()*2 - this.packageInwards.getHeight());
-						}
-						this.packageInwards.getChildren().add(newPackage);
-						Config.setCurrentTool(Tools.SELECTION);
-					} catch (IOException e) {
-						// TODO : Exception handler
-					}
+					this.addPackage();
+					Config.setCurrentTool(Tools.SELECTION);
 				}
 				break;
 			case CLASS:
 				if (event.getButton() == MouseButton.PRIMARY) {
-					try {
-						Parent newClass = FXMLLoader.load(getClass().getResource("Class.fxml"));
-						if (this.packageInwards.getWidth() < this.thePackage.getMinWidth()) {
-							this.thePackage.setPrefWidth(thePackage.getMinWidth()*2 - this.packageInwards.getWidth());
-						}
-						if (this.packageInwards.getHeight() < this.thePackage.getMinHeight()) {
-							this.thePackage.setPrefHeight(thePackage.getMinHeight()*2 - this.packageInwards.getHeight());
-						}
-						this.packageInwards.getChildren().add(newClass);
-						Config.setCurrentTool(Tools.SELECTION);
-					} catch (IOException e) {
-						// TODO : Exception handler
-					}
+					this.addClass();
+					Config.setCurrentTool(Tools.SELECTION);
 				}
 				break;
 			case ERASE:
@@ -94,7 +110,6 @@ public class Package {
 			default:
 				break;
 		}
-		event.consume();
 	}
 
 	@FXML

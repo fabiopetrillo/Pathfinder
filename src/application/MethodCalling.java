@@ -9,13 +9,46 @@ import javafx.scene.shape.Polygon;
 
 public class MethodCalling extends Line {
 	
+	private int number = -1;
+	
 	private Method start;
 	private Method end;
 	private Polygon arrow = new Polygon();
 	
 	private NumberBinding startX, startY;
 	private NumberBinding endX, endY;
+
+	public MethodCalling(Method start, Method end) {
+		this.setId("theMethodCalling");
+		this.start = start;
+		this.end = end;
+		this.arrow.getPoints().addAll(new Double[]{ 0.0, 5.0, 5.0, -5.0, -5.0, -5.0 });
+	}
 	
+	public int getNumber() {
+		return this.number;
+	}
+	
+	public void setNumber(int number) {
+		this.number = number;
+	}
+
+	public void setStart(Method start) {
+		this.start = start;
+	}
+
+	public Method getStart() {
+		return this.start;
+	}
+
+	public void setEnd(Method end) {
+		this.end = end;
+	}
+
+	public Method getEnd() {
+		return this.end;
+	}
+
 	private ChangeListener<Number> startXListener = new ChangeListener<Number>() {
 
 		@Override
@@ -68,19 +101,18 @@ public class MethodCalling extends Line {
 
 	};
 	
-	public MethodCalling(Method start, Method end) {
-		this.start = start;
-		this.end = end;
-		this.arrow.getPoints().addAll(new Double[]{ 0.0, 5.0, 5.0, -5.0, -5.0, -5.0 });
-	}
-	
 	public void delete() {
 		this.start.removeMethodCall(this);
-		this.end.removeMethodCall(this);
+		this.end.removeMethodCalling(this);
 		((Pane) this.getParent()).getChildren().remove(this.arrow);
 		((Pane) this.getParent()).getChildren().remove(this);
 	}
 
+	public void updateBindings() {
+		this.bindStart(this.start.getConnectionX(), this.start.getConnectionY());
+		this.bindEnd(this.end.getConnectionX(), this.end.getConnectionY());
+	}
+	
 	public void bindStart(NumberBinding startX, NumberBinding startY) {
 		if (this.startX != null) {
 			this.startX.removeListener(this.startXListener);
